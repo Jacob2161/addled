@@ -11,6 +11,9 @@ import (
 	"github.com/miekg/dns"
 )
 
+// DefaultResolver is the recursive resolver used when CheckArgs.Resolver is empty.
+var DefaultResolver = "8.8.8.8:53"
+
 var dnsClient = &dns.Client{}
 
 var dnsTCPClient = &dns.Client{
@@ -209,7 +212,7 @@ func Check(ctx context.Context, args CheckArgs) (*CheckResult, error) {
 
 	resolver := args.Resolver
 	if resolver == "" {
-		resolver = "8.8.8.8:53"
+		resolver = DefaultResolver
 	}
 
 	log.Info("finding nameservers", "domain", args.Domain, "resolver", resolver)
